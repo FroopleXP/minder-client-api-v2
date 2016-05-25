@@ -18,6 +18,7 @@
   "homepage": "https://github.com/FroopleXP/minder-client-api-v2#readme",
   "dependencies": {
     "body-parser": "^1.15.1",
+    "cors": "^2.7.1",
     "express": "^4.13.4",
     "jsonwebtoken": "^7.0.0",
     "morgan": "^1.7.0",
