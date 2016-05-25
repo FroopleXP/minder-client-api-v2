@@ -1,0 +1,26 @@
+{
+  "name": "minder-client-api-v2",
+  "version": "1.0.0",
+  "description": "New Minder API with OAuth",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/FroopleXP/minder-client-api-v2.git"
+  },
+  "author": "Connor Edwards",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/FroopleXP/minder-client-api-v2/issues"
+  },
+  "homepage": "https://github.com/FroopleXP/minder-client-api-v2#readme",
+  "dependencies": {
+    "body-parser": "^1.15.1",
+    "express": "^4.13.4",
+    "jsonwebtoken": "^7.0.0",
+    "morgan": "^1.7.0",
+    "mysql": "^2.10.2"
+  }
+}
