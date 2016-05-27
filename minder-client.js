@@ -42,7 +42,7 @@ app.use(expressSession({
     },
     rolling: true
 }));
-app.use(cors({ origin: "http://localhost:8100" }));
+app.use(cors({ origin: "*" }));
 app.use("/views", express.static(__dirname + '/views'));
 app.use('/api', api);
 
