@@ -10,7 +10,7 @@ module.exports.auth = function(req, res) {
         password = req.body.password;
 
     // Checking the user in the database
-    db.query("SELECT * FROM std_users WHERE std_users.stu_email = ?", email, function(err, rows, fields) {
+    db.query("SELECT * FROM std_users WHERE std_users.stu_email = ?", [email], function(err, rows, fields) {
         if (err) { // Checking for error
             throw err;
             res.status(500).send({
@@ -55,7 +55,7 @@ module.exports.auth = function(req, res) {
 
                     // Signing the token
                     var token  = jwt.sign(user_model, config.auth.secret, {
-                        expiresIn: 18000
+                        expiresIn: 5
                     });
 
                     // Sending back the token
