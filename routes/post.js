@@ -55,7 +55,7 @@ module.exports.auth = function(req, res) {
 
                     // Signing the token
                     var token  = jwt.sign(user_model, config.auth.secret, {
-                        expiresIn: 5
+                        expiresIn: "1y"
                     });
 
                     // Sending back the token
