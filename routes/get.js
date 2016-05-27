@@ -28,3 +28,13 @@ module.exports.tasks = function(req, res) {
 		}
 	});
 }
+
+module.exports.estabs = function(req, res) {
+	// Getting the establishments
+	db.query("SELECT estab_id, estab_name FROM establishments", function(err, rows, fields) {
+		// Checking for errors
+		if (err) throw err;
+		// Sending back the data
+		res.json(rows);
+	});
+}

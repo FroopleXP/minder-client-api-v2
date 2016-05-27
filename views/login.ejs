@@ -1,0 +1,48 @@
+<%- include('./includes/scripts.ejs'); %>
+<html>
+	<head>
+		<title><%= title %></title>
+	</head>
+	<body>
+
+		<!-- main page container -->
+		<div class="container-fluid">
+
+				<!-- Login form -->
+				<div class="row" style="margin-top: 20px;">
+					<div class="col-lg-4 col-md-4 col-xs-2"></div>
+					<div class="col-lg-4 col-md-4 col-xs-8">
+						<h1 style="text-align: center; margin-bottom: 20px;">MINDER</h1>
+
+						<% if (typeof err_msg !== 'undefined') { %>
+							<center><p class="err_msg"><%= err_msg %></p></center>
+						<% } %>
+
+						<form method="POST" action="login">
+
+							<div class="form-group">
+								<label for="email">Email address</label>
+								<input type="text" class="form-control" name="username" placeholder="Email" autocomplete="off">
+							</div>
+
+							<div class="form-group">
+								<label for="password">Password</label>
+								<input type="password" class="form-control" name="password" placeholder="Password" autocomplete="off">
+							</div>
+
+							<div class="form-group">
+								<p>
+									Not a member? <a href="/register">Register</a>
+									<button class="btn btn-primary pull-right" type="submit" id="reg_btn">Login</button>
+								</p>
+							</div>
+
+						</form>
+
+					</div>
+					<div class="col-lg-4 col-md-4 col-xs-2"></div>
+				</div>
+
+		</div>
+	</body>
+</html>

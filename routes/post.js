@@ -72,3 +72,125 @@ module.exports.auth = function(req, res) {
     });
 
 }
+
+module.exports.register = function(req, res) {
+
+	// Getting the data from the form
+	var firstname = xssFilters.inHTMLData(req.body.firstname),
+		lastname = xssFilters.inHTMLData(req.body.lastname),
+		email = xssFilters.inHTMLData(req.body.email),
+		password = xssFilters.inHTMLData(req.body.password),
+		password_conf = xssFilters.inHTMLData(req.body.conf_password),
+		estab_id = xssFilters.inHTMLData(req.body.school),
+		estab_password = xssFilters.inHTMLData(req.body.estab_password);
+
+	// Validating the Data
+	if (validator.isNull(firstname) || validator.isNull(lastname) || validator.isNull(email) || validator.isNull(password) || validator.isNull(password_conf) || validator.isNull(estab_id) || validator.isNull(estab_password)) {
+		res.json({
+			stat: 0,
+			message: "You must fill out all fields!"
+		});
+
+	} else if (!validator.isEmail(email)) {
+		res.json({
+			stat: 0,
+			message: "Invalid Email"
+		});
+
+	} else if (password != password_conf) {
+		res.json({
+			stat: 0,
+			message: "Passwords do not match"
+		});
+
+	} else if (!validator.isLength(password, vali_str_opt)) {
+        res.json({
+            stat: 0,
+            message: "Password must be longer than " + vali_str_opt.min + " characters"
+        });
+
+	} else {
+
+		// Checking that the Email address hasn't already been used
+		db.query("SELECT std_users.stu_id FROM std_users WHERE std_users.stu_email = ?", email, function(err, rows, fields) {
+
+			// Checking for errors
+			if (err) throw err;
+
+			// Checking for data
+			if (rows.length < 1) {
+
+				// There's no data! Email is not taken - Checking whether the Establishment exists
+				db.query("SELECT establishments.estab_id FROM establishments WHERE establishments.estab_id = ? AND establishments.estab_pass = ?", [estab_id, estab_password], function(err, rows, fields) {
+
+					// Checking for errors
+					if (err) throw err;
+
+					// Checking Data
+					if (rows.length < 1) {
+
+						// There's no data, the password is wrong
+						res.json({
+							stat: 0,
+							message: "Password for your establishment is incorrect"
+						});
+
+					} else if (rows.length > 0) {
+
+						// There's data, the password is correct - register the user
+						// Creating the User model
+						var full_name = firstname + " " + lastname;
+
+						var user_model = {
+							stu_id: null,
+							stu_fname: firstname,
+							stu_lname: lastname,
+							stu_full_name: full_name,
+							stu_sign_date: null,
+							stu_estab: estab_id,
+							stu_email: email,
+							stu_pass: password
+						}
+
+						// Adding the User to the database
+						db.query("INSERT INTO std_users SET ?", user_model, function(err, result) {
+
+							// Checking for error
+							if (err) throw err;
+
+							// Checking if the addition was successfull
+							if (result.affectedRows > 0) {
+								// Success!
+								res.json({
+									stat: 1,
+									message: "Registration Success! You may now login to the app or online at <a href='/login'>Online portal</a>"
+								});
+							} else if (result.affectedRows < 1) {
+								// Failed
+								res.json({
+									stat: 0,
+									message: "There was a problem registering your account. Please try again later!"
+								});
+							}
+
+						});
+
+					}
+
+				});
+
+
+			} else if (rows.length > 0) {
+
+				// There's data, Email has been registered
+				res.json({
+					stat: 0,
+					message: "That Email is already in use. Please try another."
+				});
+
+			}
+
+		});
+
+	}
+}
