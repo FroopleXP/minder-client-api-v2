@@ -3,45 +3,45 @@
 	<head>
 		<title><%= title %></title>
 	</head>
-	<body>
+	<body class="login_page">
 
 		<!-- main page container -->
-		<div class="container-fluid">
+		<div class="container">
 
-				<!-- Login form -->
-				<div class="row" style="margin-top: 20px;">
-					<div class="col-lg-4 col-md-4 col-xs-2"></div>
-					<div class="col-lg-4 col-md-4 col-xs-8">
-						<h1 style="text-align: center; margin-bottom: 20px;">MINDER</h1>
-
-						<% if (typeof err_msg !== 'undefined') { %>
-							<center><p class="err_msg"><%= err_msg %></p></center>
-						<% } %>
-
-						<form method="POST" action="login">
-
-							<div class="form-group">
-								<label for="email">Email address</label>
-								<input type="text" class="form-control" name="username" placeholder="Email" autocomplete="off">
-							</div>
-
-							<div class="form-group">
-								<label for="password">Password</label>
-								<input type="password" class="form-control" name="password" placeholder="Password" autocomplete="off">
-							</div>
-
+			<!-- Login form -->
+			<div class="row" style="margin-top: 20px;">
+				<div class="col-lg-4 col-md-3 col-sm-3"></div>
+				<div class="col-lg-4 col-md-6 col-sm-6">
+					<img src="./views/images/logo_wo_sub.png" class="logo">
+					<% if (typeof err_msg !== 'undefined') { %>
+						<div class="alert alert-danger" role="alert"><%= err_msg %></div>
+					<% } %>
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<form id="login_form" method="POST" action="/login">
+								<div class="form-group">
+									<label for="email">Email address</label>
+									<input type="email" class="form-control login_input" name="username" placeholder="Email" autocomplete="off">
+								</div>
+								<div class="form-group">
+									<label for="password">Password</label>
+									<input type="password" class="form-control login_input" name="password" placeholder="Password" autocomplete="off">
+								</div>
+						</div>
+						<div class="panel-footer">
 							<div class="form-group">
 								<p>
-									Not a member? <a href="/register">Register</a>
-									<button class="btn btn-primary pull-right" type="submit" id="reg_btn">Login</button>
+									<button class="btn btn-primary btn-right" type="submit" id="reg_btn">Login</button>
+									<a href="/register">
+										<button class="btn btn-danger btn-right">Register</button>
+									</a>
 								</p>
 							</div>
-
-						</form>
-
+						</div>
 					</div>
-					<div class="col-lg-4 col-md-4 col-xs-2"></div>
 				</div>
+				<div class="col-lg-4 col-md-3 col-sm-3"></div>
+			</div>
 
 		</div>
 	</body>

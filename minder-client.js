@@ -121,7 +121,7 @@ function ensureAuthenticationAPI(req, res, next) {
 app.get('/', function(req, res) {
 	// Checking if the User is logged in
 	if (req.isAuthenticated()) {
-		res.render("home", { title: "Minder Client - Home", user: req.user});
+		res.render("home", { title: "Minder Web Client - Home", user: req.user});
 	} else if (!req.isAuthenticated()) {
 		res.redirect("login");
 	}
@@ -133,7 +133,7 @@ app.get('/login', function(req, res) {
 	if (req.isAuthenticated()) {
 		res.redirect('/');
 	} else if (!req.isAuthenticated()) {
-		res.render("login", { title: "Minder Client - Login" });
+		res.render("login", { title: "Minder Web Client - Login" });
 	}
 });
 
@@ -142,7 +142,7 @@ app.post('/login', function(req, res, next) {
         if (err) {
             return next(err);
         } else if (!user) {
-            return res.render("login", { title: "Minder Client - Failed to login!", err_msg: info.message });
+            return res.render("login", { title: "Minder Web Client - Failed to login!", err_msg: info.message });
         } else {
             req.login(user, function(err) {
                 if (err) {
@@ -159,7 +159,7 @@ app.get('/register', function(req, res) {
 	// Checking if the User is logged in
 	if (!req.isAuthenticated()) {
 		// Rendering the Register page
-		res.render("register", { title: "Minder Client - Registration" });
+		res.render("register", { title: "Minder Web Client - Registration" });
 	} else if (req.isAuthenticated()) {
 		// Redirecting back to home page
 		res.redirect("/");
