@@ -4,9 +4,30 @@
 	<head>
 		<title><%= title %></title>
 	</head>
-	<body onload="get_tasks(task_table);">
-		<table class="table table-striped" style="font-size: 1em;" id="task_table">
-			<!-- Added via JS -->
-		</table>
+	<body onload="get_tasks(task_table);" class="login_page">
+
+		<div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+			<img src="./views/images/logo_wo_sub.png" style="width: 40%; margin: 7% 30% 7% 30%;" class="hide_on_mobile">
+			<div class="panel panel-primary panel-fullscreen">
+				<div class="panel-heading">
+					<h4>Minder - My Tasks</h4>
+				</div>
+				<div class="panel-body" style="padding: 0px;">
+					<div class="task_container">
+						<table class="table table-striped" style="font-size: 1em;" id="task_table">
+							<!-- Added via JS -->
+						</table>
+					</div>
+				</div>
+				<div class="panel-footer">
+					<p>
+						<button class="btn btn-primary btn-right" onclick="get_tasks(task_table)">Get Tasks</button>
+						<a href="/logout">
+							<span class="btn btn-warning btn-right">Logout</span>
+						</a>
+					</p>
+				</div>
+			</div>
+		</div>
 	</body>
 </html>
