@@ -1,6 +1,7 @@
 // Dependencies
 var config = require('../config/settings.js'),
     db = require('../mysql/mysql_conn.js'),
+    hash = require('../hash/hash.js'),
     jwt = require('jsonwebtoken');
 
 // POST Requests
@@ -39,7 +40,7 @@ module.exports.auth = function(req, res) {
                         message: "Incorrect Email"
                     });
 
-                } else if (password !== password_db) {
+                } else if (!hash.validPassword(password, password_db)) {
                     res.status(403).send({
                         status: false,
                         message: "Incorrect Password"
