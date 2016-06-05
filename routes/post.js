@@ -10,9 +10,6 @@ module.exports.auth = function(req, res) {
     var email = req.body.email,
         password = req.body.password;
 
-    console.log(req.headers);
-    console.log(email + " " + password);
-
     // Checking the user in the database
     db.query("SELECT * FROM std_users WHERE std_users.stu_email = ?", [email], function(err, rows, fields) {
         if (err) { // Checking for error
