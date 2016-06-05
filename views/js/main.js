@@ -59,12 +59,12 @@ function show_noti(stat, msg) {
 	// Checking the status
 	switch (stat) {
 		case 0:
-			noti_box.removeClass("alert-success");
-			noti_box.addClass("alert-danger");
+			noti_box.removeClass("alert alert-success");
+			noti_box.addClass("alert alert-danger");
 			break;
 		case 1:
-			noti_box.removeClass("alert-danger");
-			noti_box.addClass("alert-success");
+			noti_box.removeClass("alert alert-danger");
+			noti_box.addClass("alert alert-success");
 			break;
 		default:
 			noti_box.hide();
@@ -97,13 +97,31 @@ function get_tasks(to_append) {
 
 	$.get('/tasks', function(data) {
 
-		// Looping through the data
-		$(data.tasks).each(function(index) {
+		if (data.status === 0) { //  No data
+
 			html += "<tr><td>";
-			html += "<b>" + data.tasks[index]['task_name'] + " - (" + data.tasks[index]['class_name'] + ")</b>";
-			html += "<p>" + data.tasks[index]['task_desc'] + "</p>";
-			html += "<small>Due by: ()</small></td></tr/>";
-		});
+			html += "<center>" + data.warning + "<center>";
+			html += "</td></tr/>";
+
+			sel_box.html(html);
+
+		} else if (data.status === 1) { // There's data
+
+			// Looping through the data
+			$(data.tasks).each(function(index) {
+
+				var due_timestamp = data.tasks[index]['due_date'],
+					time_added = moment(due_timestamp).add(12, 'h'),
+					date_due = time_added.format('ll'),
+					time_now = moment(),
+					days_left = time_added.fromNow();
+
+				html += "<tr><td>";
+				html += "<b>" + data.tasks[index]['task_name'] + " - (" + data.tasks[index]['class_name'] + ")</b>";
+				html += "<p>" + data.tasks[index]['task_desc'] + "</p>";
+				html += "<small>Due by: " + date_due + " (" + days_left + ")</small></td></tr/>";
+			});
+		}
 
 		sel_box.html(html);
 

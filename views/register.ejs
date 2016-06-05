@@ -3,63 +3,69 @@
 	<head>
 		<title><%= title %></title>
 	</head>
-	<body onload="get_estab_list(estab_list);">
+	<body onload="get_estab_list(estab_list);" class="login_page">
 
 		<!-- main page container -->
-		<div class="container-fluid">
-
+		<div class="container">
+			<div class="row">
 				<!-- Registration form -->
-					<div class="col-lg-4 col-md-4 col-xs-2"></div>
-					<div class="col-lg-4 col-md-4 col-xs-8">
-
-						<div id="show_noti" class="alert" style="margin-top: 20px;"></div>
+					<div class="col-lg-4 col-md-3 col-sm-3"></div>
+					<div class="col-lg-4 col-md-6 col-sm-6">
+						<img src="./views/images/logo_wo_sub.png" class="logo" style="margin-top: 56px;">
+						<div id="show_noti" style="margin-top: 20px;"></div>
 
 						<form id="register">
-
+							<div class="panel panel-default">
+								<div class="panel-body">
 									<div class="form-group">
 										<label>Enter your information:</label>
-										<input type="text" class="form-control" name="firstname" placeholder="Firstname" autocomplete="off">
+										<input type="text" class="form-control login_input" name="firstname" placeholder="Firstname" autocomplete="off">
 									</div>
 
 									<div class="form-group">
-										<input type="text" class="form-control" name="lastname" placeholder="Lastname" autocomplete="off">
+										<input type="text" class="form-control login_input" name="lastname" placeholder="Lastname" autocomplete="off">
 									</div>
 
 									<div class="form-group">
-										<input type="text" class="form-control" name="email" placeholder="Email" autocomplete="off">
+										<input type="text" class="form-control login_input" name="email" placeholder="Email" autocomplete="off">
 									</div>
 
 									<div class="form-group">
-										<input type="password" class="form-control" name="password" placeholder="Password" autocomplete="off">
+										<input type="password" class="form-control login_input" name="password" placeholder="Password" autocomplete="off">
 									</div>
 
 									<div class="form-group">
-										<input type="password" class="form-control" name="conf_password" placeholder="Confirm Password" autocomplete="off">
+										<input type="password" class="form-control login_input" name="conf_password" placeholder="Confirm Password" autocomplete="off">
 									</div>
 
 									<div class="form-group">
 										<label for="sel1">Select your school:</label>
-										<select class="form-control" id="estab_list" name="school">
+										<select class="form-control login_input" id="estab_list" name="school">
 											<option value="null">Select your school</option>
 											<!-- Added via JS -->
 										</select>
 									</div>
 
 									<div class="form-group">
-										<input type="text" class="form-control" name="estab_password" placeholder="School Password" autocomplete="off">
+										<input type="text" class="form-control login_input" name="estab_password" placeholder="School Password" autocomplete="off">
 									</div>
 
+								</div>
+								<div class="panel-footer">
 									<div class="form-group">
 										<p>
-											Already a member? <a href="/login">Login</a>
-											<button class="btn btn-primary pull-right" type="submit" id="reg_btn">Register</button>
+											<button class="btn btn-warning btn-right" type="submit" id="reg_btn">Register</button>
+											<a href="/login">
+												<span class="btn btn-danger btn-right">Login</span>
+											</a>
 										</p>
 									</div>
+								</div>
 							</div>
 						</form>
 
 					</div>
-					<div class="col-lg-4 col-md-4 col-xs-2"></div>
+					<div class="col-lg-4 col-md-3 col-sm-3"></div>
 				</div>
 		</div>
 

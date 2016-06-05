@@ -19,7 +19,8 @@ var passport = require('passport'),
 
 // Cleaning tools
 var xssFilters = require('xss-filters'),
-    validator = require('validator');
+    validator = require('validator'),
+    hash = require('./hash/hash.js');
 
 // Cleaning settings
 var vali_str_opt = {
@@ -64,7 +65,7 @@ passport.use(new passportLocal.Strategy(function(email, password, done) {
             // Checking the credentials
             if (email !== email_db) { // Email is not correct
                 return done(null, false, {message: 'Invalid Email'});
-            } else if (password !== password_db) { // Password is not correct
+            } else if (!hash.validPassword(password, password_db)) { // Password is not correct
                 return done(null, false, {message: 'Invalid Password'});
             } else {
                 // Validation success, create the user model
@@ -218,7 +219,9 @@ app.post('/register', function(req, res) {
 					} else if (rows.length > 0) {
 						// There's data, the password is correct - register the user
 						// Creating the User model
-						var full_name = firstname + " " + lastname;
+						var full_name = firstname + " " + lastname,
+                            password_hash = hash.generateHash(password);
+
 						var user_model = {
 							stu_id: null,
 							stu_fname: firstname,
@@ -227,7 +230,7 @@ app.post('/register', function(req, res) {
 							stu_sign_date: null,
 							stu_estab: estab_id,
 							stu_email: email,
-							stu_pass: password
+							stu_pass: password_hash
 						}
 
 						// Adding the User to the database
@@ -266,7 +269,7 @@ app.get('/tasks', ensureAuthenticationAPI, function(req, res) {
 	// Getting the User ID
 	var user_id = req.user.id;
 	// Getting info about the user
-	db.query('select tasks.id "task_id", tasks.task_name "task_name", tasks.task_desc "task_desc", classes.class_name "class_name", classes.id "class_id" from tasks, classes where tasks.class_id = classes.id and tasks.class_id in (select classes.id from classes where classes.id in (select relations.class_id from relations where relations.student_id in (select std_users.stu_id from std_users where std_users.stu_id like ?)))', user_id, function(err, rows, fields) {
+	db.query('select tasks.id "task_id", tasks.date_due "due_date", tasks.task_name "task_name", tasks.task_desc "task_desc", classes.class_name "class_name", classes.id "class_id" from tasks, classes where tasks.class_id = classes.id and tasks.class_id in (select classes.id from classes where classes.id in (select relations.class_id from relations where relations.student_id in (select std_users.stu_id from std_users where std_users.stu_id like ?)))', user_id, function(err, rows, fields) {
 		if (rows.length > 0) {
 			res.json({
 				status: 1,
@@ -279,6 +282,12 @@ app.get('/tasks', ensureAuthenticationAPI, function(req, res) {
 			});
 		}
 	});
+});
+
+// Logout
+app.get('/logout', function(req, res) {
+    req.logout();
+    res.redirect('/');
 });
 
 // GET Routes (API)
